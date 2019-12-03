@@ -1,0 +1,62 @@
+<!--SOEN287 Assignment 2
+    RainTec Phone Repairs
+    Name: Alex Rainbow
+    ID: 40062747
+
+    Resources used:
+    Bootstrap: https://getbootstrap.com/docs/4.0/examples/
+    Images: Found on Google Images-->
+
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/base.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <title>Home</title>
+    </head>
+
+    <body class="d-flex flex-column h-100">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3"><b>Welcome to RainTec Phone Repair</b></h1>
+                <p><b>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum magna est, id bibendum nunc placerat ac. In interdum lacinia ligula, at laoreet ligula posuere vitae. Nullam tristique leo sit amet facilisis dignissim. Praesent sed est efficitur, placerat risus vel, egestas mi. Suspendisse varius dolor aliquet urna mollis finibus. Curabitur convallis nisl tortor, eu accumsan nisl elementum in. Duis nec neque vehicula, tincidunt sapien sit amet, interdum leo.</b></p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Header</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum magna est, id bibendum nunc placerat ac. In interdum lacinia ligula, at laoreet ligula posuere vitae. Nullam tristique leo sit amet facilisis dignissim. Praesent sed est efficitur, placerat risus vel, egestas mi. Suspendisse varius dolor aliquet urna mollis finibus. Curabitur convallis nisl tortor, eu accumsan nisl elementum in. Duis nec neque vehicula, tincidunt sapien sit amet, interdum leo.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">Return to top</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Header</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum magna est, id bibendum nunc placerat ac. In interdum lacinia ligula, at laoreet ligula posuere vitae. Nullam tristique leo sit amet facilisis dignissim. Praesent sed est efficitur, placerat risus vel, egestas mi. Suspendisse varius dolor aliquet urna mollis finibus. Curabitur convallis nisl tortor, eu accumsan nisl elementum in. Duis nec neque vehicula, tincidunt sapien sit amet, interdum leo.</p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Header</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum magna est, id bibendum nunc placerat ac. In interdum lacinia ligula, at laoreet ligula posuere vitae. Nullam tristique leo sit amet facilisis dignissim. Praesent sed est efficitur, placerat risus vel, egestas mi. Suspendisse varius dolor aliquet urna mollis finibus. Curabitur convallis nisl tortor, eu accumsan nisl elementum in. Duis nec neque vehicula, tincidunt sapien sit amet, interdum leo.</p>
+                </div>
+            </div>
+         </div>
+    </body>
+
+    <footer class="footer mt-auto py-3">
+        <div class="container">
+            <span class="text-muted">© RainTec Phone Repair 2019
+                {% if current_user.is_authenticated %}
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                {% endif %}
+                <a href="/admin">Admin Page</a>
+            </span>
+        </div>
+    </footer>
+</html>
