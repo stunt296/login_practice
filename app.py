@@ -93,7 +93,7 @@ def login():
 @app.route('/forgot', methods=['GET', 'POST'])
 def forgot():
     form = ForgotForm()
-    if form.on_submit():
+    if form.validate_on_submit():
         with open('data/passwords.csv') as f:
             r = csv.reader(f)
             lines = list(r)
