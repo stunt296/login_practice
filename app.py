@@ -94,13 +94,20 @@ def login():
 def forgot():
     form = ForgotForm()
     if form.validate_on_submit():
-        with open('data/passwords.csv') as f:
-            r = csv.reader(f)
-            lines = list(r)
-            lines[0][1] = form.password.data
+
+        with open('data/passwords.csv') as inf:
+            reader = csv.reader(inf.readlines())
+
+        with open('data/passwords.csv', 'w') as f:
             writer = csv.writer(f)
-            writer.writerows(lines)
-            writer.close()
+            for line in reader:
+                if line[0] == 'admin':
+                    writer.writerow([line[0], form.password.data])
+                    break
+                else:
+                    writer.writerow(line)
+            writer.writerows(reader)
+
         next_page = session.get('next', '/forgot_success')
         session['next'] = '/forgot_success'
         return redirect(next_page)
