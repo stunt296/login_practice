@@ -1,4 +1,5 @@
 import csv
+import bcrypt
 
 from flask import Flask, session, redirect, render_template, flash, request
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
@@ -17,34 +18,41 @@ login_manager.login_view = 'login'
 app.config['USE_SESSION_FOR_NEXT'] = True
 
 
+class User(UserMixin):
+    def __init__(self, username, password=None):
+        self.id = username
+        self.password = password
+
+
+# this is used by flask_login to get a user object for the current user
+@login_manager.user_loader
+def load_user(user_id):
+    user = find_user(user_id)
+    # user could be None
+    if user:
+        # if not None, hide the password by setting it to None
+        user.password = None
+    return user
+
+
+def find_user(username):
+    with open('data/users.csv') as f:
+        for user in csv.reader(f):
+            if username == user[0]:
+                return User(*user)
+    return None
+
+
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[InputRequired()])
     password = PasswordField('password', validators=[InputRequired()])
-    submit = SubmitField('Login')
+    submit = SubmitField('login')
 
 
 class ForgotForm(FlaskForm):
     password = PasswordField('New password', validators=[InputRequired()])
     password2 = PasswordField('Confirm new password', validators=[InputRequired()])
     submit = SubmitField('Submit')
-
-
-class User(UserMixin):
-    def __init__(self, username):
-        self.id = username
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User(user_id)
-
-
-def check_password(username, password):
-    with open('data/passwords.csv') as f:
-        for user in csv.reader(f):
-            if username == user[0] and password == user[1]:
-                return True
-    return False
 
 
 @app.route('/')
@@ -80,13 +88,14 @@ def forgotsuccess():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if check_password(form.username.data, form.password.data):
-            login_user(User(form.username.data))
+        user = find_user(form.username.data)
+        if form.username.data == 'admin' and user.password == form.password.data:
+            login_user(user)
             next_page = session.get('next', '/login_success')
             session['next'] = '/login_success'
             return redirect(next_page)
         else:
-            flash('Incorrect username/password!')
+            flash('Incorrect username or password!')
     return render_template('login.html', form=form)
 
 
@@ -95,10 +104,10 @@ def forgot():
     form = ForgotForm()
     if form.validate_on_submit():
 
-        with open('data/passwords.csv') as inf:
+        with open('data/users.csv') as inf:
             reader = csv.reader(inf.readlines())
 
-        with open('data/passwords.csv', 'w') as f:
+        with open('data/users.csv', 'w') as f:
             writer = csv.writer(f)
             for line in reader:
                 if line[0] == 'admin':
@@ -107,10 +116,7 @@ def forgot():
                 else:
                     writer.writerow(line)
             writer.writerows(reader)
-
-        next_page = session.get('next', '/forgot_success')
-        session['next'] = '/forgot_success'
-        return redirect(next_page)
+        return redirect('/forgot_success')
     return render_template('forgot.html', form=form)
 
 
